@@ -1,4 +1,4 @@
-package com.nelioalves.cursomc.domain.services;
+package com.nelioalves.cursomc.services;
 
 import com.nelioalves.cursomc.domain.Categoria;
 import com.nelioalves.cursomc.repositories.CategoriaRepository;
