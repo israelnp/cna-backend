@@ -1,6 +1,9 @@
 package com.nelioalves.cursomc.resources;
 
 import com.nelioalves.cursomc.domain.Categoria;
+import com.nelioalves.cursomc.domain.services.CategoriaService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,12 +14,16 @@ import java.util.List;
 @RequestMapping("/categorias")
 public class CategoriaResource {
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<Categoria> listar(){
+    private CategoriaService service;
 
-        Categoria cat01 = new Categoria(1, "Informática");
-        Categoria cat02 = new Categoria(2, "Escritório");
+    public CategoriaResource(CategoriaService service) {
+        this.service = service;
+    }
 
-        return List.of(cat01, cat02);
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Categoria> find(@PathVariable Integer id){
+        Categoria categoria = service.find(id);
+        return ResponseEntity.ok().body(categoria);
+
     }
 }
