@@ -1,5 +1,7 @@
 package com.nelioalves.cursomc.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
@@ -24,7 +26,7 @@ public class Cliente implements Serializable {
 
     @OneToMany(mappedBy="cliente")
     private List<Endereco> enderecos= new ArrayList<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "cliente")
     private List<Pedido> pedidos = new ArrayList<>();
 
