@@ -1,5 +1,7 @@
 package com.nelioalves.cursomc.dto;
 
+import com.nelioalves.cursomc.domain.Categoria;
+
 import java.io.Serializable;
 
 public class CategoriaDTO implements Serializable {
@@ -11,9 +13,9 @@ public class CategoriaDTO implements Serializable {
     public CategoriaDTO() {
     }
 
-    public CategoriaDTO(Integer id, String nome) {
-        this.id = id;
-        this.nome = nome;
+    public CategoriaDTO(Categoria obj) {
+        this.id = obj.getId();
+        this.nome = obj.getNome();
     }
 
     public static long getSerialVersionUID() {
