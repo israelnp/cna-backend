@@ -3,6 +3,7 @@ package com.nelioalves.cursomc.resources;
 
 import com.nelioalves.cursomc.domain.Cliente;
 import com.nelioalves.cursomc.dto.ClienteDTO;
+import com.nelioalves.cursomc.dto.ClienteNewDTO;
 import com.nelioalves.cursomc.services.ClienteService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,7 @@ public class ClienteResource {
 
     }
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteDTO objDto){
-        objDto.setId(null);
+    public ResponseEntity<Void> insert(@Valid @RequestBody ClienteNewDTO objDto){
         Cliente obj = service.fromDTO(objDto);
         service.insert(obj);
         URI uri= ServletUriComponentsBuilder
@@ -44,8 +44,7 @@ public class ClienteResource {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-    public  ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Integer id ){
-        objDto.setId(id);
+    public  ResponseEntity<Void> update(@Valid @RequestBody ClienteNewDTO objDto, @PathVariable Integer id ){
         Cliente obj= service.fromDTO(objDto);
         obj = service.update(obj);
         return ResponseEntity.noContent().build();
