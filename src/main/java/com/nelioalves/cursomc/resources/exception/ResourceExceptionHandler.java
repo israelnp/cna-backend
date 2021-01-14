@@ -1,7 +1,7 @@
 package com.nelioalves.cursomc.resources.exception;
 
-import com.nelioalves.cursomc.services.execeptions.DataIntegrityException;
-import com.nelioalves.cursomc.services.execeptions.ObjectNotFoundException;
+import com.nelioalves.cursomc.services.exceptions.DataIntegrityException;
+import com.nelioalves.cursomc.services.exceptions.ObjectNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
