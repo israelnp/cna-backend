@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,7 +26,13 @@ import java.util.Arrays;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    DataSource dataSource;
+    private DataSource dataSource;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JWTUtil jwtUtil;
 
     @Autowired
     private Environment env;
@@ -36,7 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] PUBLIC_MATCHERS_GET = {
             "/produtos/**",
-            "/categorias/**",
             "/clientes/**"
     };
 
@@ -53,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, PUBLIC_MATCHERS_GET).permitAll()
                 .antMatchers(PUBLIC_MATCHERS).permitAll()
                 .anyRequest().authenticated();
+        http.addFilter(new JWTAuthenticationFilter(authenticationManager(), jwtUtil));
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
@@ -71,6 +78,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
 //        auth.inMemoryAuthentication()
 //                .withUser("israel")
 //                    .password(passwordEncoder()
@@ -83,17 +92,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                     .authorities("ROLE_USER");
 
 
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .withUser("israel")
-                    .password(passwordEncoder()
-                            .encode("123"))
-                .authorities("ROLE_USER", "ROLE_ADMIN")
-                .and()
-                .withUser("alan")
-                .password(passwordEncoder()
-                        .encode("1234"))
-                .authorities("ROLE_USER");
+//        auth.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .withUser("israel")
+//                    .password(passwordEncoder()
+//                            .encode("123"))
+//                .authorities("ROLE_USER", "ROLE_ADMIN")
+//                .and()
+//                .withUser("alan")
+//                .password(passwordEncoder()
+//                        .encode("1234"))
+//                .authorities("ROLE_USER");
 
     }
 
